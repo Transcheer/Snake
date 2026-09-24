@@ -139,6 +139,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="food.h" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
