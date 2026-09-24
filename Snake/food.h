@@ -1,6 +1,8 @@
+#pragma once
 #include<graphics.h>
 #include<vector>
-#include"snake.h"
+
+class Snake;
 
 class Food
 {
@@ -13,21 +15,39 @@ public:
 	~Food() = default;
 
 	//随机生成食物
-	void createFood();
+	void createFood()
+	{
+
+	}
 
 	//食物的更新
-	void on_update();
+	void on_update()
+	{
+
+	}
 
 	//食物的绘制
-	void on_draw();
+	void on_draw()
+	{
+
+	}
 
 	//移除index位置上的食物
-	void deleteFood(int index);
+	void deleteFood(int index)
+	{
+
+	}
 
 	//更改食物颜色
-	void resetFoodColor();
+	void resetFoodColor()
+	{
+
+	}
 
 	//判断食物是否被吃
-	bool isFoodBeCollision(const Snake *snake, const Food *food);
+	bool isFoodBeCollision(const Snake* snake)
+	{
+
+	}
 
 };

@@ -5,6 +5,7 @@
 class GameSingleScene
 {
 private:
-	Snake 
+	Snake snake;
+	Food food;
 
 };

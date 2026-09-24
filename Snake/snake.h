@@ -1,7 +1,8 @@
 #pragma once
 #include<graphics.h>
 #include<deque>
-#include"food.h"
+
+class Food;
 
 class Snake
 {
@@ -18,33 +19,63 @@ public:
 	~Snake() = default;
 
 	//蛇的身体变长
-	void snakeAddlength();
+	void snakeAddlength()
+	{
+
+	}
 
 	//蛇移动
-	void snakeMove();
+	void snakeMove()
+	{
+
+	}
 
 	//数据更新
-	void on_update(int delta);
+	void on_update(int delta)
+	{
+
+	}
 
 	//绘制蛇
-	void on_draw();
+	void on_draw()
+	{
+
+	}
 
 	//判断是否撞到墙
-	bool isCollisionWall();
+	bool isCollisionWall()
+	{
+
+	}
 
 	//判断是否撞到蛇
-	bool isCollosionSnake(const Snake* snake);
+	bool isCollosionSnake(const Snake* snake)
+	{
+
+	}
 	
 	//判断是否撞到食物
-	bool isCollisionFood(const Snake* snake, const Food* food);
+	bool isCollisionFood(const Food* food)
+	{
+
+	}
 	
 	//判断是否撞到障碍物
-	bool isCollisionObstacle();
+	bool isCollisionObstacle()
+	{
+
+	}
 	
 	//判断蛇是否死亡
-	bool isSnakeDead();
+	bool isSnakeDead()
+	{
+
+	}
 
 	//蛇进入死亡死亡状态
-	void snakeInDead();
+	void snakeInDead()
+	{
+
+	}
 	
 };

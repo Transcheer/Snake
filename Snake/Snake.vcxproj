@@ -147,6 +147,7 @@
     <ClInclude Include="game_double_scene.h" />
     <ClInclude Include="game_single_scene.h" />
     <ClInclude Include="menu_scene.h" />
+    <ClInclude Include="scene.h" />
     <ClInclude Include="scene_manage.h" />
     <ClInclude Include="snake.h" />
   </ItemGroup>
