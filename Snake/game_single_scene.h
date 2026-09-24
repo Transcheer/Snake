@@ -5,6 +5,6 @@
 class GameSingleScene
 {
 private:
-
+	Snake 
 
 };
