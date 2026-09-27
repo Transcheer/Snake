@@ -1,6 +1,7 @@
 #pragma once
 #include<graphics.h>
 #include<deque>
+#include"timer.h"
 
 class Food;
 
@@ -10,11 +11,11 @@ private:
 	std::deque<POINT> snake_body;//蛇的身体
 	POINT snake_head;//蛇的头位置
 
-	int color = RED;//蛇的颜色，默认RED；
+	int snake_color = RED;//蛇的颜色，默认RED；
 
 	bool snake_alive = true;//蛇的存活状态，默认蛇活着
 
-
+	float snake_speed = 5; // 蛇移动的速度 grid/s
 
 public:
 	Snake() = default;
@@ -28,7 +29,7 @@ public:
 	//改变蛇的颜色
 	void changeSnakeColor(int color)//RGB(x,y,z)
 	{
-		this->color = color;
+		this->snake_color = color;
 	}
 
 	//蛇的身体变长+1
@@ -51,6 +52,12 @@ public:
 
 	//绘制蛇
 	void on_draw()
+	{
+
+	}
+
+	//处理输入
+	void on_input(ExMessage& msg)
 	{
 
 	}

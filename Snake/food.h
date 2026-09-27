@@ -7,7 +7,7 @@ class Snake;
 class Food
 {
 private:
-	std::vector<POINT> food_position;//食物的位置
+	std::vector<POINT> food_position_list;//食物的位置
 	int color = RED;//食物颜色
 
 public:
@@ -48,6 +48,12 @@ public:
 	bool isFoodBeCollision(const Snake* snake)
 	{
 
+	}
+
+	//获取食物的总数
+	int getFoodCount()
+	{
+		return food_position_list.size();
 	}
 
 };
