@@ -26,14 +26,15 @@ private:
 	bool is_snake_in_dead = false; // 蛇是否处在即将死亡的状态
 	Timer snake_enter_dead_timer; // 蛇死亡计时器
 
-	float snake_speed = 5; // 蛇移动的速度 grid/s
+	float snake_speed = 4; // 蛇移动的速度 grid/s
 	bool is_snake_accelerate = false;
 
 	int snake_move_timer = 0; // 蛇的移动计时器
 
 	enum Direction;// 先声明一下
 	Direction snake_move_current_direction = Up; // 蛇移动方向，在构造函数里采用随机的方式进行赋值
-	std::deque<Direction> snake_move_direction_deque{ Invalid,Invalid,Invalid,Invalid }; // 方向队列 
+	std::deque<Direction> snake_move_direction_deque; // 方向队列 
+	const int snake_move_direction_deque_maxsize = 2;
 
 public:
 	Snake(POINT pos, int color)//蛇的初始位置，蛇的颜色
@@ -55,7 +56,7 @@ public:
 		snake_speed = 5;
 
 		//初始化蛇的移动方向
-		snake_move_current_direction = Up;
+		snake_move_current_direction = Right;
 
 		//初始化蛇死亡计时器
 		snake_enter_dead_timer.set_callback([&]() {
@@ -72,7 +73,7 @@ public:
 
 	enum Direction
 	{
-		Up,Down,Left,Right,Invalid
+		Up,Down,Left,Right
 	};
 
 	//获取蛇头位置
@@ -103,10 +104,10 @@ public:
 	{
 		POINT head = getSnakeHeadPosition();
 		
-		if (snake_move_direction_deque[0] != Invalid)
-			snake_move_current_direction = snake_move_direction_deque[0];
-		
-		snake_move_direction_deque.pop_front();
+		if (!snake_move_direction_deque.empty())
+		{
+			snake_move_current_direction = snake_move_direction_deque.front();
+		}
 
 		switch (snake_move_current_direction)
 		{
@@ -140,12 +141,26 @@ public:
 	void snakeMove(int delta)
 	{
 		snake_move_timer += delta;
-		if (snake_move_timer >= 1 / (snake_speed * 1000))
+
+		if (is_snake_accelerate)
 		{
-			snake_move_timer = 0;
-			snakeAddBody();
-			snakeCutBody();
+			if (snake_move_timer >= 1 / (snake_speed * 2 / 1000))
+			{
+				snake_move_timer = 0;
+				snakeAddBody();
+				snakeCutBody();
+			}
 		}
+		else
+		{
+			if (snake_move_timer >= 1 / (snake_speed / 1000))
+			{
+				snake_move_timer = 0;
+				snakeAddBody();
+				snakeCutBody();
+			}
+		}
+		
 	}
 
 	//数据更新
@@ -159,7 +174,7 @@ public:
 		if (!is_snake_in_dead)
 		{
 			//死亡碰撞检测
-			if (isSnakeDead())
+			if (isShouldSnakeDead())
 			{
 				snakeEnterDead();
 			}
@@ -184,53 +199,76 @@ public:
 	//处理输入
 	virtual void on_input(const ExMessage& msg)
 	{
-		Direction pre_dir = Invalid;
+		Direction last_dir = snake_move_current_direction;
 		if (msg.message == WM_KEYDOWN)
 		{
 			switch (msg.vkcode)
 			{
 			case 0x41://'A'
-				pre_dir = Left;
-				if (snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Right)
+				last_dir = Left;
+				if (!snake_move_direction_deque.empty() && snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Right)
 				{
-					snake_move_direction_deque.pop_front();
-					snake_move_direction_deque.push_back(pre_dir);
+					if (snake_move_direction_deque_maxsize >= snake_move_direction_deque_maxsize)
+					{
+						snake_move_direction_deque.pop_front();
+					}
+					
 				}
-
+				snake_move_direction_deque.push_back(last_dir);
 				break;
 
 			case 0x44://'D'
-				pre_dir = Right;
-				if (snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Left)
+				last_dir = Right;
+				if (!snake_move_direction_deque.empty() && snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Left)
 				{
-					snake_move_direction_deque.pop_front();
-					snake_move_direction_deque.push_back(pre_dir);
+					if (snake_move_direction_deque_maxsize >= snake_move_direction_deque_maxsize)
+					{
+						snake_move_direction_deque.pop_front();
+					}
+					
 				}
+				snake_move_direction_deque.push_back(last_dir);
 				break;
 
 			case 0x57://'W'
-				pre_dir = Up;
-				if (snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Down)
+				last_dir = Up;
+				if (!snake_move_direction_deque.empty() && snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Down)
 				{
-					snake_move_direction_deque.pop_front();
-					snake_move_direction_deque.push_back(pre_dir);
+					if (snake_move_direction_deque_maxsize >= snake_move_direction_deque_maxsize)
+					{
+						snake_move_direction_deque.pop_front();
+					}
+					
 				}
+				snake_move_direction_deque.push_back(last_dir);
 				break;
 			
 			case 0x53://'S' 
-				pre_dir = Down;
-				if (snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Up)
+				last_dir = Down;
+				if (!snake_move_direction_deque.empty() && snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Up)
 				{
-					snake_move_direction_deque.pop_front();
-					snake_move_direction_deque.push_back(pre_dir);
+					if (snake_move_direction_deque_maxsize >= snake_move_direction_deque_maxsize)
+					{
+						snake_move_direction_deque.pop_front();
+					}
+					
 				}
+				snake_move_direction_deque.push_back(last_dir);
 				break;
 
 			case 0x4A://'J'
 				is_snake_accelerate = true;
 				break;
 			default:
+				
 				break;
+			}
+		}
+		else if (msg.message == WM_KEYUP)
+		{
+			if (msg.vkcode == 0x4A)
+			{
+				is_snake_accelerate = true;
 			}
 		}
 	}
@@ -255,7 +293,7 @@ public:
 			{
 				if (this->getSnakeIndexBodyPosition(i).x == snake->getSnakeIndexBodyPosition(j).x && this->getSnakeIndexBodyPosition(i).y == snake->getSnakeIndexBodyPosition(j).y)
 				{
-					return false;
+					return true;
 				}
 			}
 		}
@@ -269,7 +307,7 @@ public:
 		{
 			if (this->getSnakeIndexBodyPosition(i).x == head.x && this->getSnakeIndexBodyPosition(i).y == head.y)
 			{
-				return false;
+				return true;
 			}
 		}
 		return true;
@@ -302,9 +340,14 @@ public:
 	}
 	
 	//判断蛇是否应该死亡
-	bool isSnakeDead()
+	bool isShouldSnakeDead()
 	{
 		return isCollisionWall() || isCollosionSnake() || isCollisionObstacle();
+	}
+
+	bool isSnakeAlive()
+	{
+		return is_snake_alive;
 	}
 
 	//蛇进入死亡死亡状态
@@ -313,4 +356,6 @@ public:
 		snake_enter_dead_timer.resart();
 	}
 	
+
+
 };
