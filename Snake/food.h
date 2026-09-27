@@ -4,6 +4,8 @@
 
 class Snake;
 
+//!!!!食物的生成不能在边界上
+
 class Food
 {
 private:
@@ -54,6 +56,11 @@ public:
 	int getFoodCount()
 	{
 		return food_position_list.size();
+	}
+
+	POINT getFoodIndexPosition(int index)
+	{
+		return food_position_list[index];
 	}
 
 };

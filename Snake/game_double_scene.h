@@ -2,7 +2,7 @@
 #include"food.h"
 #include"snake.h"
 
-class GameDoubleScene
+class GameDoubleScene :public Scene
 {
 
 };
