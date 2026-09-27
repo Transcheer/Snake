@@ -14,11 +14,24 @@ private:
 
 	bool snake_alive = true;//蛇的存活状态，默认蛇活着
 
+
+
 public:
 	Snake() = default;
 	~Snake() = default;
 
-	//蛇的身体变长
+	enum Direction
+	{
+		Up,Down,Left,Right
+	};
+
+	//改变蛇的颜色
+	void changeSnakeColor(int color)//RGB(x,y,z)
+	{
+		this->color = color;
+	}
+
+	//蛇的身体变长+1
 	void snakeAddlength()
 	{
 

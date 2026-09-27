@@ -2,7 +2,8 @@
 #include<graphics.h>
 #include"snake.h"
 #include"food.h"
-
+#include"timer.h"
+#include<iostream>
 
 //全局变量
 
@@ -14,6 +15,8 @@ int main()
 	ExMessage msg;
 
 	int FPS = 60;
+
+	
 
 	BeginBatchDraw();
 	while (1)
@@ -29,7 +32,8 @@ int main()
 		DWORD current_tick_time = GetTickCount();
 		DWORD delta_tick = current_tick_time - last_tick_time;
 		//逻辑更新
-
+		
+		
 		last_tick_time = current_tick_time;
 
 
