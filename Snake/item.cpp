@@ -36,7 +36,7 @@ Item::Item(ItemType item, int max_counte, int color)
 	switch (item)
 	{
 	case Food:
-		item_create_timer.set_wait_time(50);
+		item_create_timer.set_wait_time(1000);
 		break;
 	case Obstacle:
 		item_create_timer.set_wait_time(10000);
@@ -87,9 +87,9 @@ void Item::on_update(int delta)
 	this->item_create_timer.on_update(delta);
 
 	//食物被吃掉了，删除它
-	int item_index = this->getBeCollisionItemIndex(snake1);
-	if (item_index > -1)
-		this->deleteItem(item_index);
+	//int item_index = this->getBeCollisionItemIndex(snake1);
+	//if (item_index > -1)
+	//	this->deleteItem(item_index);
 }
 
 //食物的绘制

@@ -346,14 +346,12 @@ bool Snake::isCollisionWall()
 //判断是否撞到其他蛇
 bool Snake::isCollosionSnake(Snake* snake)
 {
+	POINT thishead = this->getSnakeHeadPosition();
 	for (int i = 0; i < this->getSnakeLenth(); i++)
 	{
-		for (int j = 0; j < snake->getSnakeLenth(); j++)
+		if (thishead.x == snake->getSnakeIndexBodyPosition(i).x && thishead.y == snake->getSnakeIndexBodyPosition(i).y)
 		{
-			if (this->getSnakeIndexBodyPosition(i).x == snake->getSnakeIndexBodyPosition(j).x && this->getSnakeIndexBodyPosition(i).y == snake->getSnakeIndexBodyPosition(j).y)
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 	return true;
@@ -362,7 +360,7 @@ bool Snake::isCollosionSnake(Snake* snake)
 bool Snake::isCollosionSnake()
 {
 	POINT head = getSnakeHeadPosition();
-	for (int i = 0; i < this->getSnakeLenth(); i++)
+	for (int i = 1; i < this->getSnakeLenth(); i++)
 	{
 		if (this->getSnakeIndexBodyPosition(i).x == head.x && this->getSnakeIndexBodyPosition(i).y == head.y)
 		{
@@ -376,18 +374,16 @@ bool Snake::isCollosionSnake()
 bool Snake::isCollisionFood(Item* food)
 {
 	POINT food_pos;
-	POINT snake_pos;
+	POINT snakehead = this->getSnakeHeadPosition();
 	for (int i = 0; i < food->getItemCount(); i++)
 	{
 		food_pos = food->getItemIndexPosition(i);
-		for (int j = 0; j < this->getSnakeLenth(); j++)
+
+		if (food_pos.x == snakehead.x && food_pos.y == snakehead.y)
 		{
-			snake_pos = this->getSnakeIndexBodyPosition(j);
-			if (food_pos.x == snake_pos.x && food_pos.y == snake_pos.y)
-			{
-				return true;
-			}
+			return true;
 		}
+
 	}
 	return false;
 }
