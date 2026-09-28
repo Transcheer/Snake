@@ -5,16 +5,19 @@
 #include<Ctime>
 #include<random>
 #include<iostream>
+#include"item.h"
 
-class Food;
-
+class Item;
+extern Item* food;
 extern const int WIN_WIDTH; // 窗口宽度  单位像素
 extern const int WIN_HEIGHT; // 窗口高度  单位像素
 extern const int GRID; //一个格子的大小  单位像素
 extern const int WIN_WIDTH_BOARD; //窗口宽度  单位格子
 extern const int WIN_HEIGHT_BOARD; // 窗口高度  单位格子
 
-extern Food *food;
+
+
+
 
 class Snake
 {
@@ -392,13 +395,13 @@ public:
 	}
 	
 	//判断是否撞到食物
-	bool isCollisionFood(Food* food)
+	bool isCollisionFood(Item * food)
 	{
 		POINT food_pos;
 		POINT snake_pos;
-		for (int i = 0; i < food->getFoodCount(); i++)
+		for (int i = 0; i < food->getItemCount(); i++)
 		{
-			food_pos = food->getFoodIndexPosition(i);
+			food_pos = food->getItemIndexPosition(i);
 			for (int j = 0; j < this->getSnakeLenth(); j++)
 			{
 				snake_pos = this->getSnakeIndexBodyPosition(j);
