@@ -1,6 +1,9 @@
 //头文件
 #include<graphics.h>
 #include"game_single_scene.h"
+#include"snake.h"
+#include"item.h"
+#include"scene.h"
 #include"timer.h"
 #include<iostream>
 

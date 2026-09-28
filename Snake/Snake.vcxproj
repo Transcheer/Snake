@@ -139,8 +139,17 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="finish_scene.cpp" />
+    <ClCompile Include="game_double_scene.cpp" />
+    <ClCompile Include="game_single_scene.cpp" />
+    <ClCompile Include="item.cpp" />
     <ClCompile Include="item.h" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu_scene.cpp" />
+    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="scene_manage.cpp" />
+    <ClCompile Include="snake.cpp" />
+    <ClCompile Include="timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="finish_scene.h" />
