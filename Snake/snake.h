@@ -4,66 +4,105 @@
 #include"timer.h"
 #include<Ctime>
 #include<random>
+#include<iostream>
 
 class Food;
 
-extern const int WIN_WIDTH; // çª—å£å®½åº¦  å•ä½åƒç´ 
-extern const int WIN_HEIGHT; // çª—å£é«˜åº¦  å•ä½åƒç´ 
-extern const int GRID; //ä¸€ä¸ªæ ¼å­çš„å¤§å°  å•ä½åƒç´ 
-extern const int WIN_WIDTH_BOARD; //çª—å£å®½åº¦  å•ä½æ ¼å­
-extern const int WIN_HEIGHT_BOARD; // çª—å£é«˜åº¦  å•ä½æ ¼å­
+extern const int WIN_WIDTH; // ´°¿Ú¿í¶È  µ¥Î»ÏñËØ
+extern const int WIN_HEIGHT; // ´°¿Ú¸ß¶È  µ¥Î»ÏñËØ
+extern const int GRID; //Ò»¸ö¸ñ×ÓµÄ´óĞ¡  µ¥Î»ÏñËØ
+extern const int WIN_WIDTH_BOARD; //´°¿Ú¿í¶È  µ¥Î»¸ñ×Ó
+extern const int WIN_HEIGHT_BOARD; // ´°¿Ú¸ß¶È  µ¥Î»¸ñ×Ó
 
 extern Food *food;
 
 class Snake
 {
 private:
-	std::deque<POINT> snake_body;//è›‡çš„èº«ä½“
+	std::deque<POINT> snake_body;//ÉßµÄÉíÌå
 
-	int snake_color = RED;//è›‡çš„é¢œè‰²ï¼Œé»˜è®¤REDï¼›
+	int snake_color = RED;//ÉßµÄÑÕÉ«£¬Ä¬ÈÏRED£»
 
-	bool is_snake_alive = true;//è›‡çš„å­˜æ´»çŠ¶æ€ï¼Œé»˜è®¤è›‡æ´»ç€
-	bool is_snake_in_dead = false; // è›‡æ˜¯å¦å¤„åœ¨å³å°†æ­»äº¡çš„çŠ¶æ€
-	Timer snake_enter_dead_timer; // è›‡æ­»äº¡è®¡æ—¶å™¨
+	bool is_snake_alive = true;//ÉßµÄ´æ»î×´Ì¬£¬Ä¬ÈÏÉß»î×Å
+	bool is_snake_in_dead = false; // ÉßÊÇ·ñ´¦ÔÚ¼´½«ËÀÍöµÄ×´Ì¬
+	Timer snake_enter_dead_timer; // ÉßËÀÍö¼ÆÊ±Æ÷
 
-	float snake_speed = 4; // è›‡ç§»åŠ¨çš„é€Ÿåº¦ grid/s
+	float snake_speed = 100; // ÉßÒÆ¶¯µÄËÙ¶È grid/s
 	bool is_snake_accelerate = false;
 
-	int snake_move_timer = 0; // è›‡çš„ç§»åŠ¨è®¡æ—¶å™¨
+	float snake_move_timer = 0; // ÉßµÄÒÆ¶¯¼ÆÊ±Æ÷
 
-	enum Direction;// å…ˆå£°æ˜ä¸€ä¸‹
-	Direction snake_move_current_direction = Up; // è›‡ç§»åŠ¨æ–¹å‘ï¼Œåœ¨æ„é€ å‡½æ•°é‡Œé‡‡ç”¨éšæœºçš„æ–¹å¼è¿›è¡Œèµ‹å€¼
-	std::deque<Direction> snake_move_direction_deque; // æ–¹å‘é˜Ÿåˆ— 
-	const int snake_move_direction_deque_maxsize = 2;
+	enum Direction;// ÏÈÉùÃ÷Ò»ÏÂ
+	Direction snake_move_current_direction = Up; // ÉßÒÆ¶¯·½Ïò£¬ÔÚ¹¹Ôìº¯ÊıÀï²ÉÓÃËæ»úµÄ·½Ê½½øĞĞ¸³Öµ
+	std::deque<Direction> snake_move_direction_deque; // ·½Ïò¶ÓÁĞ 
+	const int snake_move_direction_deque_maxsize = 4;
 
 public:
-	Snake(POINT pos, int color)//è›‡çš„åˆå§‹ä½ç½®ï¼Œè›‡çš„é¢œè‰²
+	Snake(POINT pos, int color, float speed)//ÉßµÄ³õÊ¼Î»ÖÃ£¬ÉßµÄÑÕÉ«
 	{
-		//åˆå§‹åŒ–è›‡çš„èº«ä½“
+		//³õÊ¼»¯ÉßµÄÉíÌå
 		for (int i = 0; i < 3; i++)
 		{
 			snake_body.push_back(POINT(pos.x + i, pos.y));
 		}
 		
 
-		//åˆå§‹åŒ–è›‡çš„é¢œè‰²
+		//³õÊ¼»¯ÉßµÄÑÕÉ«
 		snake_color = color;
 
-		//åˆå§‹åŒ–è›‡çš„å­˜æ´»çŠ¶æ€
+		//³õÊ¼»¯ÉßµÄ´æ»î×´Ì¬
 		is_snake_alive = true;
 
-		//åˆå§‹åŒ–è›‡çš„ç§»åŠ¨é€Ÿåº¦
-		snake_speed = 5;
+		//³õÊ¼»¯ÉßµÄÒÆ¶¯ËÙ¶È
+		snake_speed = speed;
 
-		//åˆå§‹åŒ–è›‡çš„ç§»åŠ¨æ–¹å‘
+		//³õÊ¼»¯ÉßµÄÒÆ¶¯·½Ïò
 		snake_move_current_direction = Right;
 
-		//åˆå§‹åŒ–è›‡æ­»äº¡è®¡æ—¶å™¨
+		//³õÊ¼»¯ÉßËÀÍö¼ÆÊ±Æ÷
 		snake_enter_dead_timer.set_callback([&]() {
-			if (this->isCollisionWall() || this->isCollosionSnake() || this->isCollisionObstacle())
+			if (isShouldSnakeDead())
 			{
 				is_snake_alive = false;
 			}
+			is_snake_in_dead = false;
+			is_snake_alive = true;
+			});
+		snake_enter_dead_timer.set_one_shot(true);
+		snake_enter_dead_timer.set_wait_time(400);
+
+	}
+	
+	Snake()//ÉßµÄ³õÊ¼Î»ÖÃ£¬ÉßµÄÑÕÉ«
+	{
+		POINT pos = POINT(WIN_HEIGHT_BOARD / 2, WIN_WIDTH_BOARD / 4);
+		//³õÊ¼»¯ÉßµÄÉíÌå
+		for (int i = 0; i < 3; i++)
+		{
+			snake_body.push_back(POINT(pos.x + i, pos.y));
+		}
+
+
+		//³õÊ¼»¯ÉßµÄÑÕÉ«
+		snake_color = RED;
+
+		//³õÊ¼»¯ÉßµÄ´æ»î×´Ì¬
+		is_snake_alive = true;
+
+		//³õÊ¼»¯ÉßµÄÒÆ¶¯ËÙ¶È
+		snake_speed = 10;
+
+		//³õÊ¼»¯ÉßµÄÒÆ¶¯·½Ïò
+		snake_move_current_direction = Right;
+
+		//³õÊ¼»¯ÉßËÀÍö¼ÆÊ±Æ÷
+		snake_enter_dead_timer.set_callback([&]() {
+			if (isShouldSnakeDead())
+			{
+				is_snake_alive = false;
+			}
+			is_snake_in_dead = false;
+			is_snake_alive = true;
 			});
 		snake_enter_dead_timer.set_one_shot(true);
 		snake_enter_dead_timer.set_wait_time(400);
@@ -76,13 +115,13 @@ public:
 		Up,Down,Left,Right
 	};
 
-	//è·å–è›‡å¤´ä½ç½®
+	//»ñÈ¡ÉßÍ·Î»ÖÃ
 	POINT getSnakeHeadPosition()
 	{
 		return this->snake_body[0];
 	}
 
-	//è·å–è›‡èº«ä½“çš„é•¿åº¦
+	//»ñÈ¡ÉßÉíÌåµÄ³¤¶È
 	int getSnakeLenth()
 	{
 		return snake_body.size();
@@ -93,13 +132,13 @@ public:
 		return snake_body[index];
 	}
 
-	//æ”¹å˜è›‡çš„é¢œè‰²
+	//¸Ä±äÉßµÄÑÕÉ«
 	void changeSnakeColor(int color)//RGB(x,y,z)
 	{
 		this->snake_color = color;
 	}
 
-	//è›‡çš„èº«ä½“å˜é•¿+1
+	//ÉßµÄÉíÌå±ä³¤+1
 	void snakeAddBody()
 	{
 		POINT head = getSnakeHeadPosition();
@@ -107,6 +146,7 @@ public:
 		if (!snake_move_direction_deque.empty())
 		{
 			snake_move_current_direction = snake_move_direction_deque.front();
+			snake_move_direction_deque.pop_front();
 		}
 
 		switch (snake_move_current_direction)
@@ -137,66 +177,91 @@ public:
 		snake_body.pop_back();
 	}
 
-	//è›‡ç§»åŠ¨
+	//ÉßÒÆ¶¯
 	void snakeMove(int delta)
 	{
 		snake_move_timer += delta;
 
 		if (is_snake_accelerate)
 		{
-			if (snake_move_timer >= 1 / (snake_speed * 2 / 1000))
+			if (snake_move_timer >= 1 / (snake_speed * 2.5 / 1000))
 			{
-				snake_move_timer = 0;
+				
 				snakeAddBody();
 				snakeCutBody();
+				snake_move_timer = 0;
 			}
 		}
 		else
 		{
-			if (snake_move_timer >= 1 / (snake_speed / 1000))
+			if (snake_move_timer >= 1.0 / (snake_speed / 1000))
 			{
-				snake_move_timer = 0;
+				
 				snakeAddBody();
 				snakeCutBody();
+				snake_move_timer = 0;
 			}
 		}
 		
 	}
 
-	//æ•°æ®æ›´æ–°
+	//Êı¾İ¸üĞÂ
 	virtual void on_update(int delta)
 	{
-		//ç§»åŠ¨
-		snakeMove(delta);
+		//float current_speed = is_snake_accelerate ? snake_speed * 2.5f : snake_speed;
+		//float move_interval = 1000.0f / current_speed;
+
+		//// Ö»ÔÚËÙ¶È±ä»¯Ê±Êä³ö
+		//static float last_interval = 0;
+		//if (abs(move_interval - last_interval) > 1.0f)
+		//{
+		//	std::cout << "Speed: " << current_speed
+		//		<< ", Interval: " << move_interval << "ms\n";
+		//	last_interval = move_interval;
+		//}
+
+
+		if (isShouldSnakeDead())
+		{
+
+			std::cout << "Íèµ°ÈÇ£¬ÒªËÀÁËß÷£¡	current time: " << GetTickCount() << "\n";
+		}
 		
 		snake_enter_dead_timer.on_update(delta);
 
 		if (!is_snake_in_dead)
 		{
-			//æ­»äº¡ç¢°æ’æ£€æµ‹
+			//ËÀÍöÅö×²¼ì²â
 			if (isShouldSnakeDead())
 			{
 				snakeEnterDead();
 			}
-			//åƒé£Ÿç‰©ç¢°æ’æ£€æµ‹
+			//³ÔÊ³ÎïÅö×²¼ì²â
 			if (isCollisionFood(food))
 			{
 				snakeAddBody();
 			}
-		}				
+		}			
+		//ÒÆ¶¯
+		snakeMove(delta);
 	}
 
-	//ç»˜åˆ¶è›‡
+	//»æÖÆÉß
 	void on_draw()
 	{
-		setfillcolor(snake_color);
+		setfillcolor(snake_color+50);
+
+		POINT head = getSnakeHeadPosition();
+		
 		for (POINT point : snake_body)
 		{
-			fillroundrect(point.x * GRID, point.y * GRID, (point.x + 1) * GRID, (point.y + 1) * GRID, GRID * 0.2, GRID * 0.2);
+			solidroundrect(point.x * GRID, point.y * GRID, (point.x + 1) * GRID, (point.y + 1) * GRID, GRID * 0.4, GRID * 0.4);
 		}
+		setfillcolor(snake_color);
+		solidroundrect(head.x * GRID, head.y * GRID, (head.x + 1) * GRID, (head.y + 1) * GRID, GRID * 0.4, GRID * 0.4);
 	}
 
-	//å¤„ç†è¾“å…¥
+	//´¦ÀíÊäÈë
 	virtual void on_input(const ExMessage& msg)
 	{
 		Direction last_dir = snake_move_current_direction;
@@ -206,54 +271,18 @@ public:
 			{
 			case 0x41://'A'
 				last_dir = Left;
-				if (!snake_move_direction_deque.empty() && snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Right)
-				{
-					if (snake_move_direction_deque_maxsize >= snake_move_direction_deque_maxsize)
-					{
-						snake_move_direction_deque.pop_front();
-					}
-					
-				}
-				snake_move_direction_deque.push_back(last_dir);
 				break;
 
 			case 0x44://'D'
 				last_dir = Right;
-				if (!snake_move_direction_deque.empty() && snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Left)
-				{
-					if (snake_move_direction_deque_maxsize >= snake_move_direction_deque_maxsize)
-					{
-						snake_move_direction_deque.pop_front();
-					}
-					
-				}
-				snake_move_direction_deque.push_back(last_dir);
 				break;
 
 			case 0x57://'W'
 				last_dir = Up;
-				if (!snake_move_direction_deque.empty() && snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Down)
-				{
-					if (snake_move_direction_deque_maxsize >= snake_move_direction_deque_maxsize)
-					{
-						snake_move_direction_deque.pop_front();
-					}
-					
-				}
-				snake_move_direction_deque.push_back(last_dir);
 				break;
 			
 			case 0x53://'S' 
 				last_dir = Down;
-				if (!snake_move_direction_deque.empty() && snake_move_direction_deque[snake_move_direction_deque.size() - 1] != Up)
-				{
-					if (snake_move_direction_deque_maxsize >= snake_move_direction_deque_maxsize)
-					{
-						snake_move_direction_deque.pop_front();
-					}
-					
-				}
-				snake_move_direction_deque.push_back(last_dir);
 				break;
 
 			case 0x4A://'J'
@@ -263,17 +292,66 @@ public:
 				
 				break;
 			}
+			if (canChangeDirection(last_dir))
+			{
+				updateSnakeMoveDirectionDeque(last_dir);
+			}
 		}
 		else if (msg.message == WM_KEYUP)
 		{
 			if (msg.vkcode == 0x4A)
 			{
-				is_snake_accelerate = true;
+				is_snake_accelerate = false;
 			}
+		}
+		
+	}
+
+	//boolÅĞ¶ÏÊÇ·ñ¿ÉÒÔ×ªÏò
+	bool canChangeDirection(Direction next_dir)
+	{
+		if (snake_move_direction_deque.empty())
+		{
+			switch (snake_move_current_direction)
+			{
+			case Up:
+				return next_dir != Down;
+			case Down:
+				return next_dir != Up;
+			case Left:
+				return next_dir != Right;
+			case Right:
+				return next_dir != Left;
+			}
+		}
+		else
+		{
+			switch (snake_move_direction_deque.back())
+			{
+			case Up:
+				return next_dir != Down;
+			case Down:
+				return next_dir != Up;
+			case Left:
+				return next_dir != Right;
+			case Right:
+				return next_dir != Left;
+			}
+		}
+		return true;
+	}
+
+	//¸üĞÂ¶ÓÁĞ
+	void updateSnakeMoveDirectionDeque(Direction dir)
+	{
+		snake_move_direction_deque.push_back(dir);
+		if (snake_move_direction_deque.size() >= snake_move_direction_deque_maxsize)
+		{
+			snake_move_direction_deque.pop_front();
 		}
 	}
 
-	//åˆ¤æ–­æ˜¯å¦æ’åˆ°å¢™
+	//ÅĞ¶ÏÊÇ·ñ×²µ½Ç½
 	bool isCollisionWall()
 	{
 		POINT head = getSnakeHeadPosition();
@@ -284,7 +362,7 @@ public:
 		return false;
 	}
 
-	//åˆ¤æ–­æ˜¯å¦æ’åˆ°å…¶ä»–è›‡
+	//ÅĞ¶ÏÊÇ·ñ×²µ½ÆäËûÉß
 	bool isCollosionSnake(Snake* snake)
 	{
 		for (int i = 0; i < this->getSnakeLenth(); i++)
@@ -299,7 +377,7 @@ public:
 		}
 		return true;
 	}
-	//åˆ¤æ–­æ˜¯å¦æ’åˆ°è‡ªå·±
+	//ÅĞ¶ÏÊÇ·ñ×²µ½×Ô¼º
 	bool isCollosionSnake()
 	{
 		POINT head = getSnakeHeadPosition();
@@ -310,10 +388,10 @@ public:
 				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
-	//åˆ¤æ–­æ˜¯å¦æ’åˆ°é£Ÿç‰©
+	//ÅĞ¶ÏÊÇ·ñ×²µ½Ê³Îï
 	bool isCollisionFood(Food* food)
 	{
 		POINT food_pos;
@@ -333,16 +411,17 @@ public:
 		return false;
 	}
 	
-	//åˆ¤æ–­æ˜¯å¦æ’åˆ°éšœç¢ç‰©
+	
+	//ÅĞ¶ÏÊÇ·ñ×²µ½ÕÏ°­Îï
 	bool isCollisionObstacle()
 	{
 		return false;
 	}
 	
-	//åˆ¤æ–­è›‡æ˜¯å¦åº”è¯¥æ­»äº¡
+	//ÅĞ¶ÏÉßÊÇ·ñÓ¦¸ÃËÀÍö
 	bool isShouldSnakeDead()
 	{
-		return isCollisionWall() || isCollosionSnake() || isCollisionObstacle();
+		return (isCollisionWall() || isCollosionSnake() || isCollisionObstacle());
 	}
 
 	bool isSnakeAlive()
@@ -350,10 +429,11 @@ public:
 		return is_snake_alive;
 	}
 
-	//è›‡è¿›å…¥æ­»äº¡æ­»äº¡çŠ¶æ€
+	//Éß½øÈëËÀÍöËÀÍö×´Ì¬
 	void snakeEnterDead()
 	{
 		snake_enter_dead_timer.resart();
+		is_snake_in_dead = true;
 	}
 	
 

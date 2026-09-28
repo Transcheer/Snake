@@ -5,9 +5,9 @@
 #include<iostream>
 
 //全局变量
-const int WIN_WIDTH = 680; // 窗口宽度  单位像素
-const int WIN_HEIGHT = 680; // 窗口高度  单位像素
-const int GRID = 10; //一个格子的大小  单位像素
+const int WIN_WIDTH = 840; // 窗口宽度  单位像素
+const int WIN_HEIGHT = 840; // 窗口高度  单位像素
+const int GRID = 20; //一个格子的大小  单位像素
 const int WIN_WIDTH_BOARD = WIN_WIDTH / GRID; //窗口宽度  单位格子
 const int WIN_HEIGHT_BOARD = WIN_HEIGHT / GRID; // 窗口高度  单位格子
 
@@ -17,15 +17,15 @@ Food* food = nullptr;
 
 int main()
 {
-	initgraph(WIN_HEIGHT, WIN_WIDTH);
+	game_single_scene = new GameSingleScene();
+	snake = new Snake(POINT(WIN_HEIGHT_BOARD / 2, WIN_WIDTH_BOARD / 4), RED, 15);
+	food = new Food();
+
+	game_single_scene->on_enter();
 
 	ExMessage msg;
 
 	int FPS = 60;
-
-	game_single_scene = new GameSingleScene();
-	snake = new Snake(POINT(WIN_HEIGHT_BOARD / 2, WIN_WIDTH_BOARD / 4), RED);
-	food = new Food();
 
 	BeginBatchDraw();
 	while (1)
