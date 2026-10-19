@@ -30,13 +30,14 @@ Item::Item(ItemType item, int max_counte, int color)
 
 	//初始化物品生成计时器
 	item_create_timer.set_callback([&]() {
+		std::cout << "item_create_timer trigger!!!\n";
 		this->createItem();
 		});
 	item_create_timer.set_one_shot(false);
 	switch (item)
 	{
 	case Food:
-		item_create_timer.set_wait_time(1000);
+		item_create_timer.set_wait_time(5000);
 		break;
 	case Obstacle:
 		item_create_timer.set_wait_time(10000);
@@ -51,6 +52,7 @@ Item::Item()
 	item_type = Food;
 
 	item_create_timer.set_callback([&]() {
+		std::cout << "item_create_timer trigger!!!\n";
 		this->createItem();
 		});
 	item_create_timer.set_one_shot(false);
@@ -62,7 +64,7 @@ Item::~Item() = default;
 //随机生成食物
 void Item::createItem()
 {
-	std::cout << "注意喵！食物来了喵！\n";
+	//std::cout << "注意喵！食物来了喵！\n";
 
 	std::default_random_engine e(time(0)); // 使用当前时间作为种子
 	std::uniform_int_distribution<int> x(2, WIN_WIDTH_BOARD - 2); // 定义一个2到20之间的均匀分布
@@ -74,9 +76,13 @@ void Item::createItem()
 		if (this->getItemCount() < this->item_max_count)
 		{
 			item_position_list.push_back(pos);
-			std::cout << "食物来了喵！\n";
+			//std::cout << "食物来了喵！\n";
 		}
 	}
+	//else
+	//{
+	//	std::cout << "食物不来了喵！\n";
+	//}
 
 }
 

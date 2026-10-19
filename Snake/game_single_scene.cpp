@@ -3,6 +3,7 @@
 #include"snake.h"
 #include"scene.h"
 #include"game_single_scene.h"
+#include<iostream>
 
 extern const int WIN_WIDTH; // 窗口宽度  单位像素
 extern const int WIN_HEIGHT; // 窗口高度  单位像素
@@ -19,7 +20,7 @@ GameSingleScene::~GameSingleScene() = default;
 
 void GameSingleScene::on_enter()  //进入场景时初始化
 {
-	initgraph(WIN_HEIGHT, WIN_WIDTH);
+	initgraph(WIN_WIDTH, WIN_HEIGHT);
 	setbkcolor(RGB(137, 207, 240));
 	setlinecolor(WHITE - 100);
 	food = new Item(Item::Food, 5, RGB(144, 238, 144));
@@ -29,6 +30,11 @@ void GameSingleScene::on_enter()  //进入场景时初始化
 
 void GameSingleScene::on_update(int delta)  //数据更新
 {
+	//std::cout << "snake1->isCollisionObstacle(): " << snake1->isCollisionObstacle() << "\n";
+	//std::cout << "snake1->isCollisionWall(): " << snake1->isCollisionWall() << "\n";
+	//std::cout << "snake1->isCollosionSnake(): " << snake1->isCollosionSnake() << "\n";
+	//std::cout << "snake1->isShouldSnakeDead(): " << snake1->isShouldSnakeDead() << "\n";
+	//std::cout << "snake1->isSnakeAlive(): " << snake1->isSnakeAlive() << "\n";
 	snake1->on_update(delta);
 	food->on_update(delta);
 }
@@ -38,14 +44,25 @@ void GameSingleScene::on_draw()  //绘图
 
 
 	//绘制网格
+	//从下往上绘制
+	//先横线在竖线
+	for (int i = WIN_HEIGHT_BOARD; i >= 0; i--)
+	{
+		line(0, i * GRID, WIN_HEIGHT, i * GRID);
+	}
 	for (int i = 0; i <= WIN_WIDTH_BOARD; i++)
 	{
-		line(i * GRID, 0, i * GRID, WIN_HEIGHT);
+		line(i * GRID, WIN_HEIGHT, i * GRID, WIN_HEIGHT - WIN_HEIGHT_BOARD * i);
 	}
-	for (int i = 0; i <= WIN_HEIGHT_BOARD; i++)
-	{
-		line(0, i * GRID, WIN_WIDTH, i * GRID);
-	}
+
+	//for (int i = 0; i <= WIN_WIDTH_BOARD; i++)
+	//{
+	//	line(i * GRID, 0, i * GRID, WIN_HEIGHT);
+	//}
+	//for (int i = 0; i <= WIN_HEIGHT_BOARD; i++)
+	//{
+	//	line(0, i * GRID, WIN_WIDTH, i * GRID);
+	//}
 	snake1->on_draw();
 	food->on_draw();
 }

@@ -51,7 +51,7 @@ Snake::Snake(POINT pos, int color, float speed)//蛇的初始位置，蛇的颜�
 		is_snake_in_dead = false;
 		is_snake_alive = true;
 		});
-	snake_enter_dead_timer.set_one_shot(true);
+	snake_enter_dead_timer.set_one_shot(false);
 	snake_enter_dead_timer.set_wait_time(400);
 
 }
@@ -80,14 +80,19 @@ Snake::Snake()//蛇的初始位置，蛇的颜色
 
 	//初始化蛇死亡计时器
 	snake_enter_dead_timer.set_callback([&]() {
+		std::cout << "snake_enter_dead_timer trigger!!!\n";
 		if (isShouldSnakeDead())
 		{
 			is_snake_alive = false;
 		}
+		else
+		{
+			is_snake_alive = true;
+		}
 		is_snake_in_dead = false;
-		is_snake_alive = true;
+		
 		});
-	snake_enter_dead_timer.set_one_shot(true);
+	snake_enter_dead_timer.set_one_shot(false);
 	snake_enter_dead_timer.set_wait_time(400);
 
 }
@@ -354,7 +359,7 @@ bool Snake::isCollosionSnake(Snake* snake)
 			return true;
 		}
 	}
-	return true;
+	return false;
 }
 //判断是否撞到自己
 bool Snake::isCollosionSnake()
@@ -400,7 +405,12 @@ bool Snake::isShouldSnakeDead()
 {
 	return (isCollisionWall() || isCollosionSnake() || isCollisionObstacle());
 }
+bool Snake::isShouldSnakeDead(Snake* snake)
+{
+	return (isCollisionWall() || isCollosionSnake() || isCollisionObstacle() || isCollosionSnake(snake));
+}
 
+//蛇是否已经死亡
 bool Snake::isSnakeAlive()
 {
 	return is_snake_alive;

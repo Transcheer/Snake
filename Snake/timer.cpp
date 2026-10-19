@@ -1,6 +1,7 @@
 #pragma once
 #include<functional>
 #include"timer.h"
+#include<iostream>
 
 Timer::Timer() = default;
 Timer::~Timer() = default;
@@ -44,13 +45,14 @@ void Timer::on_update(int delta)
 		return;
 
 	pass_time += delta;
-	if (pass_time > wait_time)
+	if (pass_time >= wait_time)
 	{
+		//std::cout << "timer gigger!\n";
 		if ((!one_shot || (one_shot && !shotted)) && callback)
 		{
 			callback();
 		}
 		shotted = true;
-		pass_time = 0;
+		pass_time -= wait_time;
 	}
 }

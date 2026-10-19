@@ -94,6 +94,7 @@ public:
 
 	//ÅĞ¶ÏÉßÊÇ·ñÓ¦¸ÃËÀÍö
 	bool isShouldSnakeDead();
+	bool isShouldSnakeDead(Snake* snake);
 
 	bool isSnakeAlive();
 
