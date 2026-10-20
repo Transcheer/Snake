@@ -7,16 +7,17 @@
 #include"timer.h"
 #include"item.h"
 #include<iostream>
+#include"common.h"
 
 class Snake;
 extern Snake* snake1;
 extern Snake* snake2;
 
-extern const int WIN_WIDTH; // 窗口宽度  单位像素
-extern const int WIN_HEIGHT; // 窗口高度  单位像素
-extern const int GRID; //一个格子的大小  单位像素
-extern const int WIN_WIDTH_BOARD; //窗口宽度  单位格子
-extern const int WIN_HEIGHT_BOARD; // 窗口高度  单位格子
+//extern const int WIN_WIDTH; // 窗口宽度  单位像素
+//extern const int WIN_HEIGHT; // 窗口高度  单位像素
+//extern const int GRID; //一个格子的大小  单位像素
+//extern const int WIN_WIDTH_BOARD; //窗口宽度  单位格子
+//extern const int WIN_HEIGHT_BOARD; // 窗口高度  单位格子
 
 //!!!!食物的生成不能在边界上
 
@@ -105,7 +106,7 @@ void Item::on_draw()
 
 	for (POINT point : item_position_list)
 	{
-		solidroundrect(point.x * GRID, point.y * GRID, (point.x + 1) * GRID, (point.y + 1) * GRID, GRID * 0.4, GRID * 0.4);
+		solidroundrect(point.x * GRID, point.y * GRID + WIN_HEIGHT_STATUS, (point.x + 1) * GRID, (point.y + 1) * GRID + WIN_HEIGHT_STATUS, GRID * 0.4, GRID * 0.4);
 	}
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 #include"snake.h"
 #include"timer.h"
+#include"common.h"
 
 class Snake;
 extern Snake* snake1;

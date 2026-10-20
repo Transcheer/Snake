@@ -3,13 +3,15 @@
 #include"snake.h"
 #include"scene.h"
 #include"game_single_scene.h"
+#include"common.h"
 #include<iostream>
 
-extern const int WIN_WIDTH; // 窗口宽度  单位像素
-extern const int WIN_HEIGHT; // 窗口高度  单位像素
-extern const int GRID; //一个格子的大小  单位像素
-extern const int WIN_WIDTH_BOARD; //窗口宽度  单位格子
-extern const int WIN_HEIGHT_BOARD; // 窗口高度  单位格子
+//extern const int WIN_HEIGHT_STATUS;   //窗口上方的状态栏的高度   单位像素
+//extern const int GRID; //一个格子的大小  单位像素
+//extern const int WIN_WIDTH_BOARD; //窗口宽度  单位格子
+//extern const int WIN_HEIGHT_BOARD; // 窗口高度  单位格子
+//extern const int WIN_WIDTH; // 窗口宽度  单位像素
+//extern const int WIN_HEIGHT; // 窗口高度  单位像素
 extern Snake* snake1;
 extern Snake* snake2;
 extern Item* food;
@@ -46,13 +48,14 @@ void GameSingleScene::on_draw()  //绘图
 	//绘制网格
 	//从下往上绘制
 	//先横线在竖线
+	//留出上方状态栏
 	for (int i = WIN_HEIGHT_BOARD; i >= 0; i--)
 	{
-		line(0, i * GRID, WIN_HEIGHT, i * GRID);
+		line(0, i * GRID + WIN_HEIGHT_STATUS, WIN_WIDTH, i * GRID + WIN_HEIGHT_STATUS);
 	}
 	for (int i = 0; i <= WIN_WIDTH_BOARD; i++)
 	{
-		line(i * GRID, WIN_HEIGHT, i * GRID, WIN_HEIGHT - WIN_HEIGHT_BOARD * i);
+		line(i * GRID, WIN_HEIGHT_STATUS, i * GRID, WIN_HEIGHT);
 	}
 
 	//for (int i = 0; i <= WIN_WIDTH_BOARD; i++)
