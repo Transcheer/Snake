@@ -21,8 +21,8 @@ private:
 	int snake_color = RED;//蛇的颜色，默认RED；
 
 	bool is_snake_alive = true;//蛇的存活状态，默认蛇活着
-	bool is_snake_in_dead = false; // 蛇是否处在即将死亡的状态
-	Timer snake_enter_dead_timer; // 蛇死亡计时器
+	//bool is_snake_in_dead = false; // 蛇是否处在即将死亡的状态
+	//Timer snake_enter_dead_timer; // 蛇死亡计时器
 
 	float snake_speed = 100; // 蛇移动的速度 grid/s
 	bool is_snake_accelerate = false;
@@ -100,6 +100,6 @@ public:
 	bool isSnakeAlive();
 
 	//蛇进入死亡死亡状态
-	void snakeEnterDead();
+	//void snakeEnterDead();
 
 };
