@@ -31,7 +31,7 @@ Item::Item(ItemType item, int max_counte, int color)
 
 	//初始化物品生成计时器
 	item_create_timer.set_callback([&]() {
-		std::cout << "item_create_timer trigger!!!\n";
+		//std::cout << "item_create_timer trigger!!!\n";
 		this->createItem();
 		});
 	item_create_timer.set_one_shot(false);
@@ -53,7 +53,7 @@ Item::Item()
 	item_type = Food;
 
 	item_create_timer.set_callback([&]() {
-		std::cout << "item_create_timer trigger!!!\n";
+		//std::cout << "item_create_timer trigger!!!\n";
 		this->createItem();
 		});
 	item_create_timer.set_one_shot(false);

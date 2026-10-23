@@ -46,11 +46,14 @@ Snake::Snake(POINT pos, int color, float speed)//蛇的初始位置，蛇的颜�
 
 	//初始化蛇死亡计时器
 	snake_enter_dead_timer.set_callback([&]() {
+		//std::cout << "snake_enter_dead_timer trigger!!!\n";
+		is_snake_in_dead = false;
 		if (isShouldSnakeDead())
 		{
 			is_snake_alive = false;
+			return;
+			//std::cout << "snake is " << (is_snake_alive ? "alive" : "dead") << "!!!\n";
 		}
-		is_snake_in_dead = false;
 		is_snake_alive = true;
 		});
 	snake_enter_dead_timer.set_one_shot(false);
@@ -82,17 +85,15 @@ Snake::Snake()//蛇的初始位置，蛇的颜色
 
 	//初始化蛇死亡计时器
 	snake_enter_dead_timer.set_callback([&]() {
-		std::cout << "snake_enter_dead_timer trigger!!!\n";
+		//std::cout << "snake_enter_dead_timer trigger!!!\n";
+		is_snake_in_dead = false;
 		if (isShouldSnakeDead())
 		{
 			is_snake_alive = false;
+			return;
+			//std::cout << "snake is " << (is_snake_alive ? "alive" : "dead") << "!!!\n";
 		}
-		else
-		{
-			is_snake_alive = true;
-		}
-		is_snake_in_dead = false;
-		
+		is_snake_alive = true;		
 		});
 	snake_enter_dead_timer.set_one_shot(false);
 	snake_enter_dead_timer.set_wait_time(400);
@@ -232,6 +233,15 @@ void Snake::on_update(int delta)
 	}
 	//移动
 	snakeMove(delta);
+
+	static int pass_time = 0;
+	pass_time += delta;
+	if (pass_time >= 500)
+	{
+		std::cout << "sanke is " << (is_snake_alive ? "alive" : "dead") << "!!!\n";
+		pass_time = 0;
+	}
+	
 }
 
 //绘制蛇
