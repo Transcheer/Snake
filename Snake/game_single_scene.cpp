@@ -26,7 +26,7 @@ void GameSingleScene::on_enter()  //进入场景时初始化
 	setbkcolor(RGB(137, 207, 240));
 	setlinecolor(WHITE - 100);
 	food = new Item(Item::Food, 5, RGB(144, 238, 144));
-	snake1 = new Snake(POINT(WIN_HEIGHT_BOARD / 2, WIN_WIDTH_BOARD / 4), RED, 10);
+	snake1 = new Snake(POINT(WIN_HEIGHT_BOARD / 2, WIN_WIDTH_BOARD / 4), RED, 4);
 
 }
 

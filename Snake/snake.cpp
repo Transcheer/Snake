@@ -44,6 +44,14 @@ Snake::Snake(POINT pos, int color, float speed)//蛇的初始位置，蛇的颜�
 	//初始化蛇的移动方向
 	snake_move_current_direction = Right;
 
+	//初始化蛇无敌时间计时器
+	snake_Invincibility_timer.set_callback([&]()
+		{
+			is_snake_Invincibility = false;
+		});
+	snake_Invincibility_timer.set_one_shot(false);
+	snake_Invincibility_timer.set_wait_time(3000);
+
 	//初始化蛇死亡计时器
 	//snake_enter_dead_timer.set_callback([&]() {
 	//	//std::cout << "snake_enter_dead_timer trigger!!!\n";
@@ -78,10 +86,18 @@ Snake::Snake()//蛇的初始位置，蛇的颜色
 	is_snake_alive = true;
 
 	//初始化蛇的移动速度
-	snake_speed = 10;
+	snake_speed = 8;
 
 	//初始化蛇的移动方向
 	snake_move_current_direction = Right;
+
+	//初始化蛇无敌时间计时器
+	snake_Invincibility_timer.set_callback([&]()
+		{
+			is_snake_Invincibility = false;
+		});
+	snake_Invincibility_timer.set_one_shot(false);
+	snake_Invincibility_timer.set_wait_time(3000);
 
 	//初始化蛇死亡计时器
 	//snake_enter_dead_timer.set_callback([&]() {
@@ -215,8 +231,10 @@ void Snake::on_update(int delta)
 	//}
 
 	//snake_enter_dead_timer.on_update(delta);
+	snake_Invincibility_timer.on_update(delta);
 
-	//if (!is_snake_in_dead)
+	if (!is_snake_Invincibility)
+		//if (!is_snake_in_dead)
 	{
 		//死亡碰撞检测
 		if (isShouldSnakeDead())
@@ -224,6 +242,11 @@ void Snake::on_update(int delta)
 			//snakeEnterDead();
 			is_snake_alive = false;
 		}
+
+	}
+
+	if (is_snake_alive)
+	{
 		//吃食物碰撞检测
 		if (isCollisionFood(food))
 		{
@@ -231,15 +254,16 @@ void Snake::on_update(int delta)
 			food->deleteItem(beColliFood);
 			snakeAddBody();
 		}
+		//移动
+		snakeMove(delta);
 	}
-	//移动
-	snakeMove(delta);
+
 
 	static int pass_time = 0;
 	pass_time += delta;
 	if (pass_time >= 500)
 	{
-		std::cout << "sanke is " << (is_snake_alive ? "alive" : "dead") << "!!!\n";
+		std::cout << "sanke is " << (is_snake_Invincibility ? "alive" : "dead") << "!!!\n";
 		pass_time = 0;
 	}
 
@@ -248,7 +272,7 @@ void Snake::on_update(int delta)
 //绘制蛇
 void Snake::on_draw()
 {
-	if (is_snake_alive)
+	//if (is_snake_alive)
 	{
 		setfillcolor(snake_color + 50);
 
@@ -369,7 +393,7 @@ bool Snake::isCollisionWall()
 bool Snake::isCollosionSnake(Snake* snake)
 {
 	POINT thishead = this->getSnakeHeadPosition();
-	for (int i = 0; i < this->getSnakeLenth(); i++)
+	for (int i = 0; i < snake->getSnakeLenth(); i++)
 	{
 		if (thishead.x == snake->getSnakeIndexBodyPosition(i).x && thishead.y == snake->getSnakeIndexBodyPosition(i).y)
 		{

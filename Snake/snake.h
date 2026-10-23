@@ -24,6 +24,9 @@ private:
 	//bool is_snake_in_dead = false; // 蛇是否处在即将死亡的状态
 	//Timer snake_enter_dead_timer; // 蛇死亡计时器
 
+	Timer snake_Invincibility_timer;//蛇出生无敌时间的计时器
+	bool is_snake_Invincibility = true;//蛇是否无敌
+
 	float snake_speed = 100; // 蛇移动的速度 grid/s
 	bool is_snake_accelerate = false;
 
