@@ -9,4 +9,5 @@ constexpr int WIN_HEIGHT_BOARD = 30; // 窗口高度  单位格子
 inline const int WIN_WIDTH = WIN_WIDTH_BOARD * GRID; // 窗口宽度  单位像素
 inline const int WIN_HEIGHT = WIN_HEIGHT_BOARD * GRID + WIN_HEIGHT_STATUS; // 窗口高度  单位像素
 
+
 #endif // !COMMON_H

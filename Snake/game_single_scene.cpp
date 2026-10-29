@@ -12,8 +12,9 @@
 //extern const int WIN_HEIGHT_BOARD; // 窗口高度  单位格子
 //extern const int WIN_WIDTH; // 窗口宽度  单位像素
 //extern const int WIN_HEIGHT; // 窗口高度  单位像素
+extern std::vector<Snake*> global_snake_list;
 extern Snake* snake1;
-extern Snake* snake2;
+//extern Snake* snake2;
 extern Item* food;
 
 
@@ -25,8 +26,16 @@ void GameSingleScene::on_enter()  //进入场景时初始化
 	initgraph(WIN_WIDTH, WIN_HEIGHT);
 	setbkcolor(RGB(137, 207, 240));
 	setlinecolor(WHITE - 100);
+
+	global_snake_list.push_back(new Snake(POINT(WIN_HEIGHT_BOARD / 2, WIN_WIDTH_BOARD / 4), RED, 4));
 	food = new Item(Item::Food, 5, RGB(144, 238, 144));
-	snake1 = new Snake(POINT(WIN_HEIGHT_BOARD / 2, WIN_WIDTH_BOARD / 4), RED, 4);
+	//snake1 = new Snake(POINT(WIN_HEIGHT_BOARD / 2, WIN_WIDTH_BOARD / 4), RED, 4);
+	//for (auto snake : global_snake_list)
+	//{
+	//	std::cout << (unsigned)snake << "\n";
+	//}
+	////std::cout << (unsigned)global_snake_list.back() << "\n";
+	//while (1);
 
 }
 
@@ -37,7 +46,8 @@ void GameSingleScene::on_update(int delta)  //数据更新
 	//std::cout << "snake1->isCollosionSnake(): " << snake1->isCollosionSnake() << "\n";
 	//std::cout << "snake1->isShouldSnakeDead(): " << snake1->isShouldSnakeDead() << "\n";
 	//std::cout << "snake1->isSnakeAlive(): " << snake1->isSnakeAlive() << "\n";
-	snake1->on_update(delta);
+	global_snake_list.front()->on_update(delta);
+	//snake1->on_update(delta);
 	food->on_update(delta);
 }
 
@@ -66,16 +76,19 @@ void GameSingleScene::on_draw()  //绘图
 	//{
 	//	line(0, i * GRID, WIN_WIDTH, i * GRID);
 	//}
-	snake1->on_draw();
+	global_snake_list.front()->on_draw();
+	//snake1->on_draw();
 	food->on_draw();
 }
 
 void GameSingleScene::on_input(ExMessage& msg)  //处理输入
 {
-	snake1->on_input(msg);
+	global_snake_list.front()->on_input(msg);
+	//snake1->on_input(msg);
 }
 
 void GameSingleScene::on_exit()  // 退出场景时卸载
 {
-
+	//delete(snake1);
+	delete(food);
 }

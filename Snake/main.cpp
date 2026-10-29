@@ -6,6 +6,7 @@
 #include"scene.h"
 #include"timer.h"
 #include<iostream>
+#include<vector>
 #include"common.h"
 
 //全局变量
@@ -17,16 +18,18 @@
 //const int WIN_HEIGHT = WIN_HEIGHT_BOARD * GRID + WIN_HEIGHT_STATUS; // 窗口高度  单位像素
 
 
-Scene* game_single_scene = nullptr;
+Scene* global_game_single_scene = nullptr;
+std::vector<Snake*> global_snake_list;
+
 Snake* snake1 = nullptr;
 Snake* snake2 = nullptr;
 Item* food = nullptr;
 
 int main()
 {
-	game_single_scene = new GameSingleScene();
+	global_game_single_scene = new GameSingleScene();
 
-	game_single_scene->on_enter();
+	global_game_single_scene->on_enter();
 
 	ExMessage msg;
 
@@ -39,21 +42,21 @@ int main()
 		while (peekmessage(&msg))
 		{
 			//输入处理
-			game_single_scene->on_input(msg);
+			global_game_single_scene->on_input(msg);
 		}
 		//逻辑处理
 		static DWORD last_tick_time = GetTickCount();
 		DWORD current_tick_time = GetTickCount();
 		DWORD delta_tick = current_tick_time - last_tick_time;
 		//逻辑更新
-		game_single_scene->on_update(delta_tick);
+		global_game_single_scene->on_update(delta_tick);
 		
 		last_tick_time = current_tick_time;
 
 
 		cleardevice();
 		//画面处理
-		game_single_scene->on_draw();
+		global_game_single_scene->on_draw();
 		FlushBatchDraw();
 
 		//控制帧率

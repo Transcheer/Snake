@@ -12,6 +12,8 @@
 
 class Item;
 extern Item* food;
+extern std::vector<Snake*> global_snake_list;
+//extern std::vector<Snake*> global_snake_list;
 //extern const int WIN_HEIGHT_STATUS; //窗口上方的状态栏的高度   单位像素
 //extern const int WIN_WIDTH; // 窗口宽度  单位像素
 //extern const int WIN_HEIGHT; // 窗口高度  单位像素
@@ -37,6 +39,9 @@ Snake::Snake(POINT pos, int color, float speed)//蛇的初始位置，蛇的颜�
 
 	//初始化蛇的存活状态
 	is_snake_alive = true;
+
+	//初始化蛇的无敌状态
+	is_snake_Invincibility = true;
 
 	//初始化蛇的移动速度
 	snake_speed = speed;
@@ -237,7 +242,7 @@ void Snake::on_update(int delta)
 		//if (!is_snake_in_dead)
 	{
 		//死亡碰撞检测
-		if (isShouldSnakeDead())
+		if (isShouldSnakeDead(global_snake_list))
 		{
 			//snakeEnterDead();
 			is_snake_alive = false;
@@ -368,7 +373,7 @@ bool Snake::canChangeDirection(Direction next_dir)
 	return true;
 }
 
-//更新队列
+//更新方向队列
 void Snake::updateSnakeMoveDirectionDeque(Direction dir)
 {
 	snake_move_direction_deque.push_back(dir);
@@ -389,32 +394,47 @@ bool Snake::isCollisionWall()
 	return false;
 }
 
-//判断是否撞到其他蛇
-bool Snake::isCollosionSnake(Snake* snake)
+//判断是否撞到蛇
+bool Snake::isCollosionSnake(std::vector<Snake*> snake_list)
 {
 	POINT thishead = this->getSnakeHeadPosition();
-	for (int i = 0; i < snake->getSnakeLenth(); i++)
-	{
-		if (thishead.x == snake->getSnakeIndexBodyPosition(i).x && thishead.y == snake->getSnakeIndexBodyPosition(i).y)
-		{
-			return true;
-		}
-	}
-	return false;
-}
-//判断是否撞到自己
-bool Snake::isCollosionSnake()
-{
-	POINT head = getSnakeHeadPosition();
 	for (int i = 1; i < this->getSnakeLenth(); i++)
 	{
-		if (this->getSnakeIndexBodyPosition(i).x == head.x && this->getSnakeIndexBodyPosition(i).y == head.y)
+		if (this->getSnakeIndexBodyPosition(i).x == thishead.x && this->getSnakeIndexBodyPosition(i).y == thishead.y)
 		{
 			return true;
 		}
 	}
+	for (auto snake : snake_list)
+	{
+		if (snake != this)
+		{
+			for (int i = 0; i < snake->getSnakeLenth(); i++)
+			{
+				if (thishead.x == snake->getSnakeIndexBodyPosition(i).x && thishead.y == snake->getSnakeIndexBodyPosition(i).y)
+				{
+					return true;
+				}
+			}
+		}
+
+	}
+
 	return false;
 }
+////判断是否撞到自己
+//bool Snake::isCollosionSnake()
+//{
+//	POINT head = getSnakeHeadPosition();
+//	for (int i = 1; i < this->getSnakeLenth(); i++)
+//	{
+//		if (this->getSnakeIndexBodyPosition(i).x == head.x && this->getSnakeIndexBodyPosition(i).y == head.y)
+//		{
+//			return true;
+//		}
+//	}
+//	return false;
+//}
 
 //判断是否撞到食物
 bool Snake::isCollisionFood(Item* food)
@@ -442,13 +462,17 @@ bool Snake::isCollisionObstacle()
 }
 
 //判断蛇是否应该死亡
-bool Snake::isShouldSnakeDead()
+//bool Snake::isShouldSnakeDead()
+//{
+//	return (isCollisionWall() || isCollosionSnake() || isCollisionObstacle());
+//}
+bool Snake::isShouldSnakeDead(std::vector<Snake*> snake_list)
 {
-	return (isCollisionWall() || isCollosionSnake() || isCollisionObstacle());
-}
-bool Snake::isShouldSnakeDead(Snake* snake)
-{
-	return (isCollisionWall() || isCollosionSnake() || isCollisionObstacle() || isCollosionSnake(snake));
+	//return false;
+	//return isCollisionWall();
+	//return isCollisionObstacle();
+	return isCollosionSnake(snake_list);
+	//return (isCollisionWall() || isCollisionObstacle() || isCollosionSnake(snake_list));
 }
 
 //蛇是否已经死亡

@@ -10,6 +10,7 @@
 #include"common.h"
 
 class Snake;
+extern std::vector<Snake*> global_snake_list;
 extern Snake* snake1;
 extern Snake* snake2;
 
@@ -72,7 +73,7 @@ void Item::createItem()
 	std::uniform_int_distribution<int> y(2, WIN_HEIGHT_BOARD - 2); // 定义一个2到20之间的均匀分布
 
 	POINT pos = POINT(x(e), y(e));
-	if (canCreateItem(snake1, pos))
+	if (canCreateItem(global_snake_list, pos))
 	{
 		if (this->getItemCount() < this->item_max_count)
 		{
@@ -126,32 +127,40 @@ void Item::resetItemColor(int color)
 //返回食物被吃的索引
 int Item::getBeCollisionItemIndex(Snake* snake)
 {
-	POINT snake_head_pos = snake->getSnakeHeadPosition();
-	for (int i = 0; i < this->getItemCount(); i++)
+	
 	{
-		POINT item_pos = this->getItemIndexPosition(i);
-		if (snake_head_pos.x == item_pos.x && snake_head_pos.y == item_pos.y)
+		POINT snake_head_pos = snake->getSnakeHeadPosition();
+		for (int i = 0; i < this->getItemCount(); i++)
 		{
-			return i;
+			POINT item_pos = this->getItemIndexPosition(i);
+			if (snake_head_pos.x == item_pos.x && snake_head_pos.y == item_pos.y)
+			{
+				return i;
+			}
 		}
 	}
+
 	return -1;
 }
 
-//判断当前位置能不能生成食物
-bool Item::canCreateItem(Snake* snake, POINT pos)
+//判断pos位置能不能生成食物
+bool Item::canCreateItem(std::vector<Snake*> snake_list, POINT pos)
 {
 	return true;
 	POINT item_pos;
 	//有蛇的地方不行
-	for (int i = 0; i < snake->getSnakeLenth(); i++)
+	for (auto snake : snake_list)
 	{
-		item_pos = snake->getSnakeIndexBodyPosition(i);
-		if (pos.x == item_pos.x && pos.y == item_pos.y)
+		for (int i = 0; i < snake->getSnakeLenth(); i++)
 		{
-			return false;
+			item_pos = snake->getSnakeIndexBodyPosition(i);
+			if (pos.x == item_pos.x && pos.y == item_pos.y)
+			{
+				return false;
+			}
 		}
 	}
+
 	//本来就有东西的地方也不行
 	for (int i = 0; i < this->getItemCount(); i++)
 	{
@@ -162,18 +171,22 @@ bool Item::canCreateItem(Snake* snake, POINT pos)
 		}
 	}
 }
-bool Item::canCreateItem(Snake* snake, POINT pos, Item* other_item)
+bool Item::canCreateItem(std::vector<Snake*> snake_list, POINT pos, Item* other_item)
 {
 	POINT item_pos;
 	//有蛇的地方不行
-	for (int i = 0; i < snake->getSnakeLenth(); i++)
+	for (auto snake : snake_list)
 	{
-		item_pos = snake->getSnakeIndexBodyPosition(i);
-		if (pos.x == item_pos.x && pos.y == item_pos.y)
+		for (int i = 0; i < snake->getSnakeLenth(); i++)
 		{
-			return false;
+			item_pos = snake->getSnakeIndexBodyPosition(i);
+			if (pos.x == item_pos.x && pos.y == item_pos.y)
+			{
+				return false;
+			}
 		}
 	}
+
 	//本来就有东西的地方也不行
 	for (int i = 0; i < other_item->getItemCount(); i++)
 	{

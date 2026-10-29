@@ -59,8 +59,8 @@ public:
 	int getBeCollisionItemIndex(Snake* snake);
 
 	//判断当前位置能不能生成食物
-	bool canCreateItem(Snake* snake, POINT pos);
-	bool canCreateItem(Snake* snake, POINT pos, Item* other_item);
+	bool canCreateItem(std::vector<Snake*> snake_list, POINT pos);
+	bool canCreateItem(std::vector<Snake*> global_snake_list, POINT pos, Item* other_item);
 
 	//获取食物的总数
 	int getItemCount();

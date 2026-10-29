@@ -86,9 +86,9 @@ public:
 	bool isCollisionWall();
 
 	//判断是否撞到其他蛇
-	bool isCollosionSnake(Snake* snake);
+	bool isCollosionSnake(std::vector<Snake*> snake_list);
 	//判断是否撞到自己
-	bool isCollosionSnake();
+	//bool isCollosionSnake();
 
 	//判断是否撞到食物
 	bool isCollisionFood(Item* food);
@@ -97,8 +97,8 @@ public:
 	bool isCollisionObstacle();
 
 	//判断蛇是否应该死亡
-	bool isShouldSnakeDead();
-	bool isShouldSnakeDead(Snake* snake);
+	//bool isShouldSnakeDead();
+	bool isShouldSnakeDead(std::vector<Snake*> snake_list);
 
 	bool isSnakeAlive();
 
