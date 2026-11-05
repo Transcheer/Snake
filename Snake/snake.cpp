@@ -268,7 +268,7 @@ void Snake::on_update(int delta)
 	pass_time += delta;
 	if (pass_time >= 500)
 	{
-		std::cout << "sanke is " << (is_snake_Invincibility ? "alive" : "dead") << "!!!\n";
+		std::cout << "sanke is " << (is_snake_alive ? "alive" : "dead") << "!!!\n";
 		pass_time = 0;
 	}
 
@@ -471,8 +471,8 @@ bool Snake::isShouldSnakeDead(std::vector<Snake*> snake_list)
 	//return false;
 	//return isCollisionWall();
 	//return isCollisionObstacle();
-	return isCollosionSnake(snake_list);
-	//return (isCollisionWall() || isCollisionObstacle() || isCollosionSnake(snake_list));
+	//return isCollosionSnake(snake_list);
+	return (isCollisionWall() || isCollisionObstacle() || isCollosionSnake(snake_list));
 }
 
 //蛇是否已经死亡
