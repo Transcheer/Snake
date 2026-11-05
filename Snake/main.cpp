@@ -25,6 +25,11 @@ Snake* snake1 = nullptr;
 Snake* snake2 = nullptr;
 Item* food = nullptr;
 
+Scene* game_double_scene = nullptr;
+Scene* game_single_scene = nullptr;
+Scene* finish_scene = nullptr;
+Scene* menu_scene = nullptr;
+
 int main()
 {
 	global_game_single_scene = new GameSingleScene();
