@@ -4,6 +4,8 @@
 #include"snake.h"
 #include"item.h"
 #include"scene.h"
+#include"menu_scene.h"
+#include"scene_manage.h"
 #include"timer.h"
 #include<iostream>
 #include<vector>
@@ -18,7 +20,7 @@
 //const int WIN_HEIGHT = WIN_HEIGHT_BOARD * GRID + WIN_HEIGHT_STATUS; // 窗口高度  单位像素
 
 
-Scene* global_game_single_scene = nullptr;
+//Scene* global_game_single_scene = nullptr;
 std::vector<Snake*> global_snake_list;
 
 Snake* snake1 = nullptr;
@@ -29,16 +31,28 @@ Scene* game_double_scene = nullptr;
 Scene* game_single_scene = nullptr;
 Scene* finish_scene = nullptr;
 Scene* menu_scene = nullptr;
+Scene* exit_scene = nullptr;
+
+SceneManage scene_manage;
 
 int main()
 {
-	global_game_single_scene = new GameSingleScene();
+	//global_game_single_scene = new GameSingleScene();
+	menu_scene = new MenuScene(L"D:\\work_file\\VS\\repos_2\\Snake\\Snake\\resource\\background.png");
+	game_single_scene = new GameSingleScene();
+	//global_game_single_scene->on_enter();
 
-	global_game_single_scene->on_enter();
+	if (menu_scene != nullptr)
+	{
+		std::cout << "menu_scene is not nullptr\n";
+	}
+	scene_manage.set_current_scene(menu_scene);
 
 	ExMessage msg;
 
 	int FPS = 60;
+
+	initgraph(WIN_WIDTH, WIN_HEIGHT);
 
 	BeginBatchDraw();
 	while (1)
@@ -47,21 +61,24 @@ int main()
 		while (peekmessage(&msg))
 		{
 			//输入处理
-			global_game_single_scene->on_input(msg);
+			scene_manage.on_input(msg);
+			//global_game_single_scene->on_input(msg);
 		}
 		//逻辑处理
 		static DWORD last_tick_time = GetTickCount();
 		DWORD current_tick_time = GetTickCount();
 		DWORD delta_tick = current_tick_time - last_tick_time;
 		//逻辑更新
-		global_game_single_scene->on_update(delta_tick);
+		scene_manage.on_update(delta_tick);
+		//global_game_single_scene->on_update(delta_tick);
 		
 		last_tick_time = current_tick_time;
 
 
 		cleardevice();
 		//画面处理
-		global_game_single_scene->on_draw();
+		scene_manage.on_draw();
+		//global_game_single_scene->on_draw();
 		FlushBatchDraw();
 
 		//控制帧率

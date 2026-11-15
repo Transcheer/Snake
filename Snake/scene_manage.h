@@ -11,7 +11,8 @@ public:
 		Game_Double,//双人游戏
 		Game_Single,//单人游戏
 		Menu,//菜单
-		Finish//结算界面
+		Finish,//结算界面
+		Exit  //退出游戏
 	};
 
 	//设置当前场景

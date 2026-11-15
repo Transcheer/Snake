@@ -79,6 +79,13 @@ void GameSingleScene::on_draw()  //绘图
 	global_snake_list.front()->on_draw();
 	//snake1->on_draw();
 	food->on_draw();
+
+	//绘制蛇的分数
+
+	static TCHAR str[64];
+	_stprintf_s(str, _T("Score:%d"), global_snake_list.front()->getSnakeLenth());
+	settextcolor(LIGHTBLUE);
+	outtextxy(0, 0, str);
 }
 
 void GameSingleScene::on_input(ExMessage& msg)  //处理输入

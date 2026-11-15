@@ -4,12 +4,13 @@ extern Scene* game_double_scene;
 extern Scene* game_single_scene;
 extern Scene* finish_scene;
 extern Scene* menu_scene;
+extern Scene* exit_scene;
 
 //设置当前场景
 void SceneManage::set_current_scene(Scene* scene)
 {
 	current_scene = scene;
-	current_scene->on_enter();
+	scene->on_enter();
 }
 
 //转换场景
@@ -19,16 +20,24 @@ void SceneManage::switch_to(SceneType type)
 	switch (type)
 	{
 	case SceneType::Finish:
-		set_current_scene(finish_scene);
+		if (finish_scene != nullptr)
+			set_current_scene(finish_scene);
 		break;
 	case SceneType::Game_Double:
-		set_current_scene(game_double_scene);
+		if (game_double_scene != nullptr)
+			set_current_scene(game_double_scene);
 		break;
 	case SceneType::Game_Single:
-		set_current_scene(game_single_scene);
+		if (game_double_scene != nullptr)
+			set_current_scene(game_single_scene);
 		break;
 	case SceneType::Menu:
-		set_current_scene(menu_scene);
+		if (game_double_scene != nullptr)
+			set_current_scene(menu_scene);
+		break;
+	case SceneType::Exit:
+		if (exit_scene != nullptr)
+			set_current_scene(exit_scene);
 		break;
 	default:
 		break;
