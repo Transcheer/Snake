@@ -46,6 +46,7 @@ private:
 	//bool is_button_hover = false; // 按钮是否悬停
 	//bool is_button_push = false; // 按钮是否按下
 	bool is_button_clicked = false;
+	bool is_button_img_loaded = false;
 
 	SceneManage::SceneType button_next_scene_type{ SceneManage::SceneType::Menu }; // 下一个场景类型
 

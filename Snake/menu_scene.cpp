@@ -1,5 +1,6 @@
 #include"menu_scene.h"
 #include"scene_manage.h"
+#include<iostream>
 
 extern SceneManage scene_manage;
 
@@ -7,7 +8,7 @@ MenuScene::MenuScene() = default;
 MenuScene::~MenuScene() = default;
 MenuScene::MenuScene(LPCTSTR menu_bk_path)
 {
-	loadimage(&menu_background, menu_bk_path);
+	loadimage(&menu_background, menu_bk_path, WIN_WIDTH, WIN_HEIGHT);
 }
 
 void MenuScene::on_enter() //进入场景时初始化
@@ -17,11 +18,13 @@ void MenuScene::on_enter() //进入场景时初始化
 	bt_double_mode.initialize_button(RECT(0, 220, 192, 295), SceneManage::SceneType::Game_Double,
 		_T("resource/ui_start_idle.png"), _T("resource/ui_start_hovered.png"), _T("resource/ui_start_pushed.png"));
 	bt_exit_game.initialize_button(RECT(0, 320, 192, 395), SceneManage::SceneType::Exit,
-		_T("resource/ui_start_idle.png"), _T("resource/ui_quit_hovered.png"), _T("resource/ui_quit_pushed.png"));
+		_T("resource/ui_start_idle.png"), _T("resource/ui_start_hovered.png"), _T("resource/ui_start_pushed.png"));
 
 	bt_single_mode.reset();
 	bt_double_mode.reset();
 	bt_exit_game.reset();
+
+	//std::cout << "ON_ENTER trigger!\n";
 }
 
 void MenuScene::on_update(int delta) //数据更新
@@ -116,18 +119,20 @@ void Button::set_button_pos(RECT rect)
 //设置按钮图片
 bool Button::set_button_image(LPCTSTR idle_path, LPCTSTR hover_path, LPCTSTR push_path)
 {
-	static bool loaded = false;
+	if (is_button_img_loaded)
+		return true;
 	//loadimage(&button_image_idle, idle_path, (button_rect.right - button_rect.right), (button_rect.bottom - button_rect.top), true);
 	//loadimage(&button_image_hover, hover_path, (button_rect.right - button_rect.right), (button_rect.bottom - button_rect.top), true);
 	//loadimage(&button_image_push, push_path, (button_rect.right - button_rect.right), (button_rect.bottom - button_rect.top), true);
-	if (!loaded)
-	{
-		loadimage(&button_image_idle, idle_path);
-		loadimage(&button_image_hover, hover_path);
-		loadimage(&button_image_push, push_path);
-		loaded = button_image_idle.getwidth() > 0 && button_image_hover.getwidth() > 0 && button_image_push.getwidth() > 0;
-	}
-	return loaded;
+
+	loadimage(&button_image_idle, idle_path);
+	loadimage(&button_image_hover, hover_path);
+	loadimage(&button_image_push, push_path);
+	is_button_img_loaded = button_image_idle.getwidth() > 0
+		&& button_image_hover.getwidth() > 0
+		&& button_image_push.getwidth() > 0;
+
+	return is_button_img_loaded;
 }
 
 //绘制
@@ -151,11 +156,9 @@ void Button::on_draw()
 	}
 	putimage(x, y, img);
 }
-#include<iostream>
+
 // 判断当前鼠标位置是否有效
 bool Button::is_button_mouse_in_region(int x, int y) const
 {
-	if (PtInRect(&button_rect, POINT{ x,y }) != false)
-		std::cout << "yes!";
 	return PtInRect(&button_rect, POINT{ x,y }) != false;
 }

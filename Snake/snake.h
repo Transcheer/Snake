@@ -27,7 +27,7 @@ private:
 	Timer snake_Invincibility_timer;//蛇出生无敌时间的计时器
 	bool is_snake_Invincibility = true;//蛇是否无敌
 
-	float snake_speed = 100; // 蛇移动的速度 grid/s
+	float snake_speed = 10; // 蛇移动的速度 grid/s
 	bool is_snake_accelerate = false;
 
 	float snake_move_timer = 0; // 蛇的移动计时器

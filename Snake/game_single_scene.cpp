@@ -23,7 +23,7 @@ GameSingleScene::~GameSingleScene() = default;
 
 void GameSingleScene::on_enter()  //进入场景时初始化
 {
-	initgraph(WIN_WIDTH, WIN_HEIGHT);
+	//initgraph(WIN_WIDTH, WIN_HEIGHT);
 	setbkcolor(RGB(137, 207, 240));
 	setlinecolor(WHITE - 100);
 

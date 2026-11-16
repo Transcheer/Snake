@@ -37,22 +37,17 @@ SceneManage scene_manage;
 
 int main()
 {
+	initgraph(WIN_WIDTH, WIN_HEIGHT);
 	//global_game_single_scene = new GameSingleScene();
-	menu_scene = new MenuScene(L"D:\\work_file\\VS\\repos_2\\Snake\\Snake\\resource\\background.png");
+	menu_scene = new MenuScene(_T("resource/background.png"));
 	game_single_scene = new GameSingleScene();
 	//global_game_single_scene->on_enter();
 
-	if (menu_scene != nullptr)
-	{
-		std::cout << "menu_scene is not nullptr\n";
-	}
 	scene_manage.set_current_scene(menu_scene);
 
 	ExMessage msg;
 
 	int FPS = 60;
-
-	initgraph(WIN_WIDTH, WIN_HEIGHT);
 
 	BeginBatchDraw();
 	while (1)

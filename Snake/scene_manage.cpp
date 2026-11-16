@@ -1,4 +1,5 @@
 #include"scene_manage.h"
+#include<iostream>
 
 extern Scene* game_double_scene;
 extern Scene* game_single_scene;
@@ -22,24 +23,30 @@ void SceneManage::switch_to(SceneType type)
 	case SceneType::Finish:
 		if (finish_scene != nullptr)
 			set_current_scene(finish_scene);
+		std::cout << "(finish)SWITCH_TO trigger!\n";
 		break;
 	case SceneType::Game_Double:
 		if (game_double_scene != nullptr)
 			set_current_scene(game_double_scene);
+		std::cout << "(double)SWITCH_TO trigger!\n";
 		break;
 	case SceneType::Game_Single:
-		if (game_double_scene != nullptr)
+		if (game_single_scene != nullptr)
 			set_current_scene(game_single_scene);
+		std::cout << "(single)SWITCH_TO trigger!\n";
 		break;
 	case SceneType::Menu:
 		if (game_double_scene != nullptr)
 			set_current_scene(menu_scene);
+		std::cout << "(menu)SWITCH_TO trigger!\n";
 		break;
 	case SceneType::Exit:
 		if (exit_scene != nullptr)
 			set_current_scene(exit_scene);
+		std::cout << "SWITCH_TO trigger!\n";
 		break;
 	default:
+		std::cout << "(default)SWITCH_TO trigger!\n";
 		break;
 	}
 }
