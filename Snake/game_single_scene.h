@@ -9,9 +9,9 @@
 //extern const int GRID; //一个格子的大小  单位像素
 //extern const int WIN_WIDTH_BOARD; //窗口宽度  单位格子
 //extern const int WIN_HEIGHT_BOARD; // 窗口高度  单位格子
-extern Snake* snake1;
-extern Snake* snake2;
-extern Item* food;
+//extern Snake* snake1;
+//extern Snake* snake2;
+//extern Item* food;
 
 
 class GameSingleScene:public Scene

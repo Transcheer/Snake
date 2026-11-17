@@ -41,6 +41,7 @@ int main()
 	//global_game_single_scene = new GameSingleScene();
 	menu_scene = new MenuScene(_T("resource/background.png"));
 	game_single_scene = new GameSingleScene();
+	game_double_scene = new GameDoubleScene();
 	//global_game_single_scene->on_enter();
 
 	scene_manage.set_current_scene(menu_scene);

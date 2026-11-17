@@ -13,7 +13,7 @@
 //extern const int WIN_WIDTH; // 窗口宽度  单位像素
 //extern const int WIN_HEIGHT; // 窗口高度  单位像素
 extern std::vector<Snake*> global_snake_list;
-extern Snake* snake1;
+//extern Snake* snake1;
 //extern Snake* snake2;
 extern Item* food;
 
@@ -98,4 +98,12 @@ void GameSingleScene::on_exit()  // 退出场景时卸载
 {
 	//delete(snake1);
 	delete(food);
+	for (auto snake : global_snake_list)
+	{
+		delete snake;
+	}
+	global_snake_list.clear();
+	if (food != nullptr)
+		delete food;
+	food = nullptr;
 }

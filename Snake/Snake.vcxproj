@@ -149,6 +149,7 @@
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="scene_manage.cpp" />
     <ClCompile Include="snake.cpp" />
+    <ClCompile Include="snake_2p.cpp" />
     <ClCompile Include="timer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +161,7 @@
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene_manage.h" />
     <ClInclude Include="snake.h" />
+    <ClInclude Include="snake_2p.h" />
     <ClInclude Include="timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

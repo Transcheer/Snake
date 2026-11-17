@@ -15,7 +15,7 @@ extern Item* food;
 
 class Snake
 {
-private:
+protected:
 	std::deque<POINT> snake_body;//蛇的身体
 
 	int snake_color = RED;//蛇的颜色，默认RED；

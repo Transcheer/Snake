@@ -54,6 +54,9 @@
     <ClCompile Include="scene.cpp">
       <Filter>源文件\scene</Filter>
     </ClCompile>
+    <ClCompile Include="snake_2p.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="snake.h">
@@ -81,6 +84,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="snake_2p.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
