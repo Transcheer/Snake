@@ -1,4 +1,3 @@
-#pragma once
 #include<graphics.h>
 #include"scene.h"
 Scene::Scene() = default;

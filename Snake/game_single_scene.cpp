@@ -1,8 +1,8 @@
-#pragma once
 #include"item.h"
 #include"snake.h"
 #include"scene.h"
 #include"game_single_scene.h"
+#include"scene_manage.h"
 #include"common.h"
 #include<iostream>
 
@@ -16,7 +16,7 @@ extern std::vector<Snake*> global_snake_list;
 //extern Snake* snake1;
 //extern Snake* snake2;
 extern Item* food;
-
+extern SceneManage scene_manage;
 
 GameSingleScene::GameSingleScene() = default;
 GameSingleScene::~GameSingleScene() = default;
@@ -27,7 +27,7 @@ void GameSingleScene::on_enter()  //进入场景时初始化
 	setbkcolor(RGB(137, 207, 240));
 	setlinecolor(WHITE - 100);
 
-	global_snake_list.push_back(new Snake(POINT(WIN_HEIGHT_BOARD / 2, WIN_WIDTH_BOARD / 4), RED, 4));
+	global_snake_list.push_back(new Snake(POINT(WIN_HEIGHT_BOARD / 2, WIN_WIDTH_BOARD / 2), RED, 4));
 	food = new Item(Item::Food, 5, RGB(144, 238, 144));
 	//snake1 = new Snake(POINT(WIN_HEIGHT_BOARD / 2, WIN_WIDTH_BOARD / 4), RED, 4);
 	//for (auto snake : global_snake_list)
@@ -41,14 +41,12 @@ void GameSingleScene::on_enter()  //进入场景时初始化
 
 void GameSingleScene::on_update(int delta)  //数据更新
 {
-	//std::cout << "snake1->isCollisionObstacle(): " << snake1->isCollisionObstacle() << "\n";
-	//std::cout << "snake1->isCollisionWall(): " << snake1->isCollisionWall() << "\n";
-	//std::cout << "snake1->isCollosionSnake(): " << snake1->isCollosionSnake() << "\n";
-	//std::cout << "snake1->isShouldSnakeDead(): " << snake1->isShouldSnakeDead() << "\n";
-	//std::cout << "snake1->isSnakeAlive(): " << snake1->isSnakeAlive() << "\n";
+	food->on_update(delta);
+	if (global_snake_list.empty())
+		return;
 	global_snake_list.front()->on_update(delta);
 	//snake1->on_update(delta);
-	food->on_update(delta);
+	
 }
 
 void GameSingleScene::on_draw()  //绘图
@@ -76,28 +74,37 @@ void GameSingleScene::on_draw()  //绘图
 	//{
 	//	line(0, i * GRID, WIN_WIDTH, i * GRID);
 	//}
-	global_snake_list.front()->on_draw();
-	//snake1->on_draw();
-	food->on_draw();
 
-	//绘制蛇的分数
-
+//绘制蛇的分数
 	static TCHAR str[64];
 	_stprintf_s(str, _T("Score:%d"), global_snake_list.front()->getSnakeLenth());
 	settextcolor(LIGHTBLUE);
 	outtextxy(0, 0, str);
+
+	food->on_draw();
+	if (global_snake_list.empty())
+		return;
+	global_snake_list.front()->on_draw();
+
+
+
+
 }
 
 void GameSingleScene::on_input(ExMessage& msg)  //处理输入
 {
+	if (global_snake_list.empty())
+		return;
 	global_snake_list.front()->on_input(msg);
-	//snake1->on_input(msg);
+	if (msg.message == WM_KEYDOWN && msg.vkcode == VK_ESCAPE)
+	{
+		scene_manage.switch_to(SceneManage::SceneType::Menu);
+	}
 }
 
 void GameSingleScene::on_exit()  // 退出场景时卸载
 {
-	//delete(snake1);
-	delete(food);
+
 	for (auto snake : global_snake_list)
 	{
 		delete snake;

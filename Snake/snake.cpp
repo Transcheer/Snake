@@ -1,4 +1,3 @@
-#pragma once
 #include"snake.h"
 #include"item.h"
 #include"common.h"
@@ -30,7 +29,7 @@ Snake::Snake(POINT pos, int color, float speed)//蛇的初始位置，蛇的颜�
 	//初始化蛇的身体
 	for (int i = 0; i < 3; i++)
 	{
-		snake_body.push_back(POINT(pos.x + i, pos.y));
+		snake_body.push_back(POINT(pos.x, pos.y - i));
 	}
 
 
@@ -47,7 +46,7 @@ Snake::Snake(POINT pos, int color, float speed)//蛇的初始位置，蛇的颜�
 	snake_speed = speed;
 
 	//初始化蛇的移动方向
-	snake_move_current_direction = Right;
+	snake_move_current_direction = Up;
 
 	//初始化蛇无敌时间计时器
 	snake_Invincibility_timer.set_callback([&]()
@@ -80,7 +79,7 @@ Snake::Snake()//蛇的初始位置，蛇的颜色
 	//初始化蛇的身体
 	for (int i = 0; i < 3; i++)
 	{
-		snake_body.push_back(POINT(pos.x + i, pos.y));
+		snake_body.push_back(POINT(pos.x, pos.y - i));
 	}
 
 
@@ -94,7 +93,7 @@ Snake::Snake()//蛇的初始位置，蛇的颜色
 	snake_speed = 8;
 
 	//初始化蛇的移动方向
-	snake_move_current_direction = Right;
+	snake_move_current_direction = Up;
 
 	//初始化蛇无敌时间计时器
 	snake_Invincibility_timer.set_callback([&]()

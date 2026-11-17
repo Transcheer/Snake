@@ -5,6 +5,7 @@
 #include"item.h"
 #include"scene.h"
 #include"menu_scene.h"
+#include"exit_scene.h"
 #include"scene_manage.h"
 #include"timer.h"
 #include<iostream>
@@ -34,12 +35,13 @@ Scene* menu_scene = nullptr;
 Scene* exit_scene = nullptr;
 
 SceneManage scene_manage;
-
+bool is_game_running = true;
 int main()
 {
 	initgraph(WIN_WIDTH, WIN_HEIGHT);
 	//global_game_single_scene = new GameSingleScene();
 	menu_scene = new MenuScene(_T("resource/background.png"));
+	exit_scene = new ExitScene(_T("resource/background.png"));
 	game_single_scene = new GameSingleScene();
 	game_double_scene = new GameDoubleScene();
 	//global_game_single_scene->on_enter();
@@ -51,7 +53,7 @@ int main()
 	int FPS = 60;
 
 	BeginBatchDraw();
-	while (1)
+	while (is_game_running)
 	{
 		DWORD frame_start_time = GetTickCount();
 		while (peekmessage(&msg))

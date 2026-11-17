@@ -19,11 +19,13 @@ void GameDoubleScene::on_enter()
 
 void GameDoubleScene::on_update(int delta)
 {
+	food->on_update(delta);
+	
 	for (auto snake : global_snake_list)
 	{
 		snake->on_update(delta);
 	}
-	food->on_update(delta);
+
 }
 
 void GameDoubleScene::on_draw()
@@ -36,21 +38,26 @@ void GameDoubleScene::on_draw()
 	{
 		line(i * GRID, WIN_HEIGHT_STATUS, i * GRID, WIN_HEIGHT);
 	}
-
-	for (auto snake:global_snake_list)
+	food->on_draw();
+	
+	for (auto snake : global_snake_list)
 	{
 		snake->on_draw();
 	}
-	food->on_draw();
+
 }
 
 void GameDoubleScene::on_input(ExMessage& msg)
 {
+	
 	for (auto snake : global_snake_list)
 	{
 		snake->on_input(msg);
 	}
-
+	if (msg.message == WM_KEYDOWN && msg.vkcode == VK_ESCAPE)
+	{
+		scene_manage.switch_to(SceneManage::SceneType::Menu);
+	}
 }
 
 void GameDoubleScene::on_exit()
