@@ -38,10 +38,11 @@ SceneManage scene_manage;
 bool is_game_running = true;
 int main()
 {
+	std::cout << WIN_WIDTH << "\n" << WIN_HEIGHT << "\n";
 	initgraph(WIN_WIDTH, WIN_HEIGHT);
 	//global_game_single_scene = new GameSingleScene();
-	menu_scene = new MenuScene(_T("resource/background.png"));
-	exit_scene = new ExitScene(_T("resource/background.png"));
+	menu_scene = new MenuScene(_T("resource/snake_menu_background.png"));
+	exit_scene = new ExitScene(_T("resource/snake_menu_background.png"));
 	game_single_scene = new GameSingleScene();
 	game_double_scene = new GameDoubleScene();
 	//global_game_single_scene->on_enter();

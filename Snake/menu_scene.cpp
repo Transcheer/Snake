@@ -1,5 +1,6 @@
 #include"menu_scene.h"
 #include"scene_manage.h"
+#include"common.h"
 #include<iostream>
 
 extern SceneManage scene_manage;
@@ -13,11 +14,15 @@ MenuScene::MenuScene(LPCTSTR menu_bk_path)
 
 void MenuScene::on_enter() //进入场景时初始化
 {
-	bt_single_mode.initialize_button(RECT(0, 120, 192, 195), SceneManage::SceneType::Game_Single,
+	int left = WIN_WIDTH / 2 - 96;
+	int right = WIN_WIDTH / 2 + 96;
+	int heigh = 195 - 120;
+	int gap = 50;
+	bt_single_mode.initialize_button(RECT(left, 250, right, 250 + heigh), SceneManage::SceneType::Game_Single,
 		_T("resource/ui_start_idle.png"), _T("resource/ui_start_hovered.png"), _T("resource/ui_start_pushed.png"));
-	bt_double_mode.initialize_button(RECT(0, 220, 192, 295), SceneManage::SceneType::Game_Double,
+	bt_double_mode.initialize_button(RECT(left, 250 + heigh + gap, right, 250 + heigh + gap + heigh), SceneManage::SceneType::Game_Double,
 		_T("resource/ui_start_idle.png"), _T("resource/ui_start_hovered.png"), _T("resource/ui_start_pushed.png"));
-	bt_exit_game.initialize_button(RECT(0, 320, 192, 395), SceneManage::SceneType::Exit,
+	bt_exit_game.initialize_button(RECT(left, 250 + heigh + gap + heigh + gap, right, 250 + heigh + gap + heigh + gap + heigh), SceneManage::SceneType::Exit,
 		_T("resource/ui_start_idle.png"), _T("resource/ui_start_hovered.png"), _T("resource/ui_start_pushed.png"));
 
 	bt_single_mode.reset();

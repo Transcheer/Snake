@@ -12,7 +12,7 @@ void ExitScene::on_enter()
 {
 	game_exit_timer.set_callback([&] {is_game_running = false; });
 	game_exit_timer.set_one_shot(true);
-	game_exit_timer.set_wait_time(2000);
+	game_exit_timer.set_wait_time(300);
 }
 void ExitScene::on_update(int delta)
 {
@@ -20,7 +20,8 @@ void ExitScene::on_update(int delta)
 }
 void ExitScene::on_draw()
 {
-	putimage(0, 0, &exit_background_image);
+	//putimage(0, 0, &exit_background_image);
+	setbkcolor(WHITE);
 }
 void ExitScene::on_input(ExMessage& msg)
 {

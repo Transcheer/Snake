@@ -284,10 +284,10 @@ void Snake::on_draw()
 
 		for (POINT point : snake_body)
 		{
-			solidroundrect(point.x * GRID, point.y * GRID + WIN_HEIGHT_STATUS, (point.x + 1) * GRID, (point.y + 1) * GRID + WIN_HEIGHT_STATUS, GRID * 0.4, GRID * 0.4);
+			solidroundrect(point.x * GRID, point.y * GRID + WIN_HEIGHT_STATUS, (point.x + 1) * GRID, (point.y + 1) * GRID + WIN_HEIGHT_STATUS, GRID * 0.1, GRID * 0.1);
 		}
 		setfillcolor(snake_color);
-		solidroundrect(head.x * GRID, head.y * GRID + WIN_HEIGHT_STATUS, (head.x + 1) * GRID, (head.y + 1) * GRID + WIN_HEIGHT_STATUS, GRID * 0.4, GRID * 0.4);
+		solidroundrect(head.x * GRID, head.y * GRID + WIN_HEIGHT_STATUS, (head.x + 1) * GRID, (head.y + 1) * GRID + WIN_HEIGHT_STATUS, GRID * 0.1, GRID * 0.1);
 	}
 
 }
